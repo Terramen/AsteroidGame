@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _roadTransform;
 
     public float Speed => _speed;
-    
+
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position += new Vector3(0, 0, _speed * Time.deltaTime);
 
 
-        if (InputManager._instance.IsMovingLeft)
+        if (InputManager.Instance.IsMovingLeft)
         {
             if (transform.position.x >= -_roadTransform.localScale.x / 2)
             {
@@ -49,7 +49,8 @@ public class PlayerMovement : MonoBehaviour
                 SpaceshipMoving(-_xSpeed);
             }
         }
-        if (InputManager._instance.IsMovingRight)
+
+        if (InputManager.Instance.IsMovingRight)
         {
             if (transform.position.x <= _roadTransform.localScale.x / 2)
             {
@@ -58,32 +59,31 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (!InputManager._instance.IsMovingLeft && !InputManager._instance.IsMovingRight)
+        if (!InputManager.Instance.IsMovingLeft && !InputManager.Instance.IsMovingRight)
         {
             SpaceshipTilt(transform.rotation, Quaternion.Euler(0, 0, 0));
         }
 
-        if (InputManager._instance.IsShipBoosted)
+        bool isBoosted = InputManager.Instance.IsShipBoosted;
+        
+        if (isBoosted != _speedBoosted)
         {
-            if (!_speedBoosted)
+            _speedBoosted = isBoosted;
+            
+            if (_speedBoosted)
             {
                 _scoreManager.ChangeScoreCalculation(_scoreManager.BoostFlyingScore);
                 _speed *= _speedMultiplier;
-                _speedBoosted = true;
             }
-            _mainCameraFollow.DistanceChangeByShipBoost(_mainCameraFollow.BoostedDistance);
-        }
-        else
-        {
-            if (_speedBoosted)
+            else
             {
                 _scoreManager.ChangeScoreCalculation(_scoreManager.RegularFlyingScore);
                 _speed /= _speedMultiplier;
-                _speedBoosted = false; 
             }
-            _mainCameraFollow.DistanceChangeByShipBoost(_mainCameraFollow.DefaultDistance);
         }
-
+        
+        float distance = _speedBoosted ? _mainCameraFollow.BoostedDistance : _mainCameraFollow.DefaultDistance;
+        _mainCameraFollow.DistanceChangeByShipBoost(distance);
     }
 
     private void SpaceshipTilt(Quaternion start, Quaternion end)
@@ -93,9 +93,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpaceshipMoving(float speed)
     {
-        transform.position += new Vector3(speed * Time.deltaTime, 0,0 );
+        transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
     }
-    
+
     private void OnGameStateChanged(GameState newGameState)
     {
         enabled = newGameState == GameState.Gameplay;

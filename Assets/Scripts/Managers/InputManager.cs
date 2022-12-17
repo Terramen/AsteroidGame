@@ -8,14 +8,11 @@ public class InputManager : MonoBehaviour
     private bool _isShipBoosted;
     private bool _isMovingLeft;
     private bool _isMovingRight;
+    private static InputManager _instance = null;
     
-    //[SerializeField] private KeyCode _moveLeft;
-    //[SerializeField] private KeyCode _moveRight;
-    //[SerializeField] private KeyCode _shipBoostKey;
     [SerializeField] private string _moveRight;
     [SerializeField] private string _moveLeft;
     [SerializeField] private string _shipBoostKey;
-
 
     public bool IsShipBoosted => _isShipBoosted;
 
@@ -23,8 +20,8 @@ public class InputManager : MonoBehaviour
 
     public bool IsMovingRight => _isMovingRight;
     
-    public static InputManager _instance = null;
-    
+    public static InputManager Instance => _instance;
+
     // Singleton for inputs
     private void Awake()
     {
