@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private bool _isMoving;
     
     [Header("Utility")]
-    //[SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private SmoothFollow _mainCameraFollow;
 
     [Header("Road")]

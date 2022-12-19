@@ -9,24 +9,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Counters")]
-    [SerializeField] private TextMeshProUGUI _scoreCounter;
-    [SerializeField] private TextMeshProUGUI _asteroidCounter;
-    [SerializeField] private TextMeshProUGUI _timer;
-    [SerializeField] private TextMeshProUGUI _highScore;
-    
     [Header("StartGamePanel")]
     [SerializeField] private GameObject _startGamePanel;
     
     [Header("GameOverPanel")]
     [SerializeField] private GameObject _gameOverGamePanel;
-    [SerializeField] private TextMeshProUGUI _resultScoreCount;
-    [SerializeField] private TextMeshProUGUI _resultAsteroidCount;
-    [SerializeField] private TextMeshProUGUI _resultTimeCount;
-    [SerializeField] private TextMeshProUGUI _highScoreCongratulation;
-    
+
     [Header("Utility")]
-    //[SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private PauseController _pauseController;
 
     private void Awake()

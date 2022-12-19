@@ -7,8 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class AsteroidMissCollision : MonoBehaviour
 {
     private ScoreModel _scoreModel;
-
-    //[SerializeField] private ScoreManager _scoreManager;
+    
     [SerializeField] private LayerMask _layerMask;
 
     public void Init(ScoreModel scoreModel)
