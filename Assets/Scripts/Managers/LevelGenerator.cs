@@ -25,7 +25,14 @@ public class LevelGenerator : MonoBehaviour
     [Header("Utility")]
     [SerializeField] private PrefabPooling _prefabPooling;
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private ScoreManager _scoreManager;
+
+    // TODO Replace with another model because asteroidFrequency not related to score
+    private ScoreModel _scoreModel;
+
+    public void Init(ScoreModel scoreModel)
+    {
+        _scoreModel = scoreModel;
+    }
 
     // Queue initialization and adding some starting objects
     private void Awake()
@@ -43,7 +50,7 @@ public class LevelGenerator : MonoBehaviour
 
         for (int i = 0; i < _asteroidCount; i++)
         {
-            _asteroidPositionZ += _scoreManager.AsteroidFrequency;
+            _asteroidPositionZ += _scoreModel.AsteroidCounter.AsteroidFrequency;
             _prefabPooling.AddObjectToPool(_asteroidPrefab, _disabledAsteroids,
                 Random.Range(-_roadBorder,_roadBorder), _asteroidPositionZ);
         }
@@ -82,10 +89,10 @@ public class LevelGenerator : MonoBehaviour
     {
         while (true)
         {
-            _asteroidPositionZ += _scoreManager.AsteroidFrequency;
+            _asteroidPositionZ += _scoreModel.AsteroidCounter.AsteroidFrequency;
             _prefabPooling.AddObjectToPool(_asteroidPrefab, _disabledAsteroids,
                 Random.Range(-_roadBorder,_roadBorder), _asteroidPositionZ);
-            yield return new WaitForSeconds(_scoreManager.AsteroidFrequency / _playerMovement.Speed);
+            yield return new WaitForSeconds(_scoreModel.AsteroidCounter.AsteroidFrequency / _playerMovement.Speed);
         }
     }
 

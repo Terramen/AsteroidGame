@@ -17,13 +17,20 @@ public class PlayerMovement : MonoBehaviour
     private bool _isMoving;
     
     [Header("Utility")]
-    [SerializeField] private ScoreManager _scoreManager;
+    //[SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private SmoothFollow _mainCameraFollow;
 
     [Header("Road")]
     [SerializeField] private Transform _roadTransform;
 
+    private ScoreModel _scoreModel;
+
     public float Speed => _speed;
+
+    public void Init(ScoreModel scoreModel)
+    {
+        _scoreModel = scoreModel;
+    }
 
     private void Awake()
     {
@@ -69,17 +76,8 @@ public class PlayerMovement : MonoBehaviour
         if (isBoosted != _speedBoosted)
         {
             _speedBoosted = isBoosted;
-            
-            if (_speedBoosted)
-            {
-                _scoreManager.ChangeScoreCalculation(_scoreManager.BoostFlyingScore);
-                _speed *= _speedMultiplier;
-            }
-            else
-            {
-                _scoreManager.ChangeScoreCalculation(_scoreManager.RegularFlyingScore);
-                _speed /= _speedMultiplier;
-            }
+            _speed = _speedBoosted ? _speed * _speedMultiplier : _speed / _speedMultiplier;
+            _scoreModel.ChangeScoreCalculation(_speedBoosted);
         }
         
         float distance = _speedBoosted ? _mainCameraFollow.BoostedDistance : _mainCameraFollow.DefaultDistance;
