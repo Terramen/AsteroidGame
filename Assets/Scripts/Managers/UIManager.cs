@@ -18,6 +18,14 @@ public class UIManager : MonoBehaviour
     [Header("Utility")]
     [SerializeField] private PauseController _pauseController;
 
+    // TODO Remove this later
+    private ScoreModel _scoreModel;
+
+    public void Init(ScoreModel scoreModel)
+    {
+        _scoreModel = scoreModel;
+    }
+
     private void Awake()
     {
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -36,12 +44,15 @@ public class UIManager : MonoBehaviour
     }
     
     // Save highscore and reload a game scene
-    /*public void PlayAgain()
+    public void PlayAgain()
     {
-        PlayerPrefs.SetInt("highScore",_scoreManager.HighScore);
-        PlayerPrefs.Save();
+        if (_scoreModel.IsHighScoreBeated)
+        {
+            PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
+            PlayerPrefs.Save();   
+        }
         SceneManager.LoadSceneAsync("SampleScene");
-    }*/
+    }
 
     private void OnGameStateChanged(GameState newGameState)
     {
@@ -50,8 +61,8 @@ public class UIManager : MonoBehaviour
     }
 
     // If player quit during the game and get a higher score that will be saved
-    /*private void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("highScore",_scoreManager.HighScore);
-    }*/
+        PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
+    }
 }

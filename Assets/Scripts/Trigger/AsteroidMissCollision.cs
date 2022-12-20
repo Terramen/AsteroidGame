@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+
 
 public class AsteroidMissCollision : MonoBehaviour
 {
     private ScoreModel _scoreModel;
-    
+
     [SerializeField] private LayerMask _layerMask;
 
     public void Init(ScoreModel scoreModel)

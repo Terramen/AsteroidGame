@@ -14,6 +14,7 @@ public class RootController : MonoBehaviour
     private PlayerMovement _playerMovement;
     private SpaceshipCollision _spaceshipCollision;
     private LevelGenerator _levelGenerator;
+    private UIManager _uiManager;
     
     private void Awake()
     {
@@ -38,5 +39,8 @@ public class RootController : MonoBehaviour
 
         _levelGenerator = _levelGeneratorPrefab.GetComponent<LevelGenerator>();
         _levelGenerator.Init(scoreModel);
+
+        _uiManager = _canvas.GetComponent<UIManager>();
+        _uiManager.Init(scoreModel);
     }
 }
