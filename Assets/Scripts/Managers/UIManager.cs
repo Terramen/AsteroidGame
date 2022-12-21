@@ -51,6 +51,8 @@ public class UIManager : MonoBehaviour
             PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
             PlayerPrefs.Save();   
         }
+        
+        // TODO Possible remove LoadScene and change it with Reset params
         SceneManager.LoadSceneAsync("SampleScene");
     }
 
@@ -63,6 +65,6 @@ public class UIManager : MonoBehaviour
     // If player quit during the game and get a higher score that will be saved
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
+        //PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
     }
 }

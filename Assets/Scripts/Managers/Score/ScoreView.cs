@@ -38,7 +38,10 @@ public class ScoreView : MonoBehaviour
             _highScoreCongratulation.gameObject.SetActive(true);
         }
         _resultScoreCount.text = score.ToString();
+        _resultScoreCount.gameObject.SetActive(true);
         _resultTimeCount.text = timeFromStart.ToString();
+        _resultTimeCount.gameObject.SetActive(true);
         _resultAsteroidCount.text = asteroidCount.ToString();
+        _resultAsteroidCount.gameObject.SetActive(true);
     }
 }

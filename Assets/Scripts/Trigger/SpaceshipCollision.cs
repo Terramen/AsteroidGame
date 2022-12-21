@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class SpaceshipCollision : MonoBehaviour
 {
-    [SerializeField] private UIManager _uiManager;
+    //TODO Remove this Manager
+    private UIManager _uiManager;
     [SerializeField] private LayerMask _layerMask;
 
     // TODO Possibility to remove
     private ScoreModel _scoreModel;
     
-    public void Init(ScoreModel scoreModel)
+    public void Init(ScoreModel scoreModel, UIManager uiManager)
     {
         _scoreModel = scoreModel;
+        _uiManager = uiManager;
     }
     // if spaceship collide with asteroid, it will call a spaceship crush function
     private void OnTriggerEnter(Collider other)

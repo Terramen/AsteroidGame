@@ -17,6 +17,10 @@ public class SmoothFollow : MonoBehaviour
 
     public float BoostedDistance => boostedDistance;
 
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
     private void Awake()
     {
         defaultDistance = distance;
