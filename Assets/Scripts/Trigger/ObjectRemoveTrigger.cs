@@ -6,18 +6,25 @@ public class ObjectRemoveTrigger : MonoBehaviour
 {
     [SerializeField] private LayerMask _roadLayer;
     [SerializeField] private LayerMask _asteroidLayer;
-    [SerializeField] private LevelGenerator _levelGenerator;
-    
+
+    private LevelModel _levelModel;
+
+    public void Init(LevelModel levelModel)
+    {
+        _levelModel = levelModel;
+    }
     // If trigger behind camera collide with asteroid or road - disable them
     private void OnTriggerEnter(Collider other)
     {
         if (ExistLayerByLayerMask(_roadLayer, other.gameObject.layer))
         {
-            _levelGenerator.DisableRoadByTrigger(other.gameObject);
+            other.gameObject.TryGetComponent(out RoadView roadView);
+            _levelModel.RemoveRoadsFromPool(roadView);
         }
         if (ExistLayerByLayerMask(_asteroidLayer, other.gameObject.layer))
         {
-            _levelGenerator.DisableAsteroidByTrigger(other.gameObject);
+            other.gameObject.TryGetComponent(out AsteroidView asteroidView);
+            _levelModel.RemoveAsteroidsFromPool(asteroidView);
         }
     }
     
