@@ -78,13 +78,15 @@ public class ScoreModel
         _highScore = _score;
     }
 
-    public void CheckScoreIncreasing()
+    public bool CheckScoreIncreasing()
     {
         if (_score > _scoreIncreaseSum)
         {
             _scoreIncreaseSum += _scoreToIncreaseRespawn;
-            _asteroidCounter.AsteroidRespawnIncreasing();
+            return true;
         }
+
+        return false;
     }
 
     public void SpaceshipCrush()
@@ -122,32 +124,20 @@ public class AsteroidCounter
 {
     private int _asteroidCount;
     private int _asteroidPassScore;
-    private int _asteroidFrequency;
 
     public int AsteroidCount => _asteroidCount;
 
     public int AsteroidPassScore => _asteroidPassScore;
 
-    public int AsteroidFrequency => _asteroidFrequency;
-
     public AsteroidCounter(int asteroidPassScore, int asteroidFrequency, int asteroidCount = default)
     {
         _asteroidCount = asteroidCount;
         _asteroidPassScore = asteroidPassScore;
-        _asteroidFrequency = asteroidFrequency;
     }
 
     public void AddAsteroid()
     {
-        _asteroidCount += 1;
-    }
-
-    public void AsteroidRespawnIncreasing()
-    {
-        if (_asteroidFrequency > 0)
-        {
-            _asteroidFrequency--;
-        }
+        _asteroidCount++;
     }
 }
 

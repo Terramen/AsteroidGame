@@ -7,12 +7,17 @@ public class ScoreController : MonoBehaviour
 {
     private ScoreModel _scoreModel;
     private ScoreView _scoreView;
+    private SpaceshipModel _spaceshipModel;
+    private LevelModel _levelModel;
 
-    public void Init(ScoreModel scoreModel, ScoreView scoreView)
+    public void Init(ScoreModel scoreModel, ScoreView scoreView, SpaceshipModel spaceshipModel, LevelModel levelModel)
     {
         _scoreModel = scoreModel;
         _scoreView = scoreView;
+        _spaceshipModel = spaceshipModel;
+        _levelModel = levelModel;
         _scoreModel.OnGameOver += GameEnding;
+        _spaceshipModel.OnSpeedBoosted += ChangeScoreCalculation;
     }
 
     private void Awake()
@@ -24,6 +29,7 @@ public class ScoreController : MonoBehaviour
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
         _scoreModel.OnGameOver -= GameEnding;
+        _spaceshipModel.OnSpeedBoosted -= ChangeScoreCalculation;
     }
 
     private void Update()
@@ -34,17 +40,25 @@ public class ScoreController : MonoBehaviour
             _scoreModel.BeatHighScore();
         }
 
-        _scoreModel.CheckScoreIncreasing();
+        if (_scoreModel.CheckScoreIncreasing())
+        {
+            _levelModel.AsteroidRespawnIncreasing();
+        }
 
         //From UIManager
         _scoreView.SetGameCounterValues(_scoreModel.AsteroidCounter.AsteroidCount, _scoreModel.Score,
             _scoreModel.TimerCounter.TimeFromStart, _scoreModel.HighScore);
     }
 
-    public void GameEnding()
+    private void GameEnding()
     {
         _scoreView.SetResultCounterValues(_scoreModel.IsHighScoreBeated, _scoreModel.AsteroidCounter.AsteroidCount,
             _scoreModel.Score, _scoreModel.TimerCounter.TimeFromStart);
+    }
+
+    private void ChangeScoreCalculation(bool isBoosted)
+    {
+        _scoreModel.ChangeScoreCalculation(isBoosted);
     }
 
     private void OnGameStateChanged(GameState newGameState)
