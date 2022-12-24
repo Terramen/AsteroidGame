@@ -6,14 +6,12 @@ public class SpaceshipController : MonoBehaviour
 {
     private SpaceshipView _spaceshipView;
     private SpaceshipModel _spaceshipModel;
-    private ScoreModel _scoreModel;
     private SmoothFollow _mainCameraFollow;
 
-    public void Init(SpaceshipModel spaceshipModel, SpaceshipView spaceshipView, ScoreModel scoreModel, SmoothFollow smoothFollow)
+    public void Init(SpaceshipModel spaceshipModel, SpaceshipView spaceshipView, SmoothFollow smoothFollow)
     {
         _spaceshipModel = spaceshipModel;
         _spaceshipView = spaceshipView;
-        _scoreModel = scoreModel;
         _mainCameraFollow = smoothFollow;
     }
 
@@ -56,7 +54,7 @@ public class SpaceshipController : MonoBehaviour
             _spaceshipModel.Speed = _spaceshipModel.SpeedBoosted
                 ? _spaceshipModel.Speed * _spaceshipModel.SpeedMultiplier
                 : _spaceshipModel.Speed / _spaceshipModel.SpeedMultiplier;
-            _scoreModel.ChangeScoreCalculation(_spaceshipModel.SpeedBoosted);
+            _spaceshipModel.CheckSpeedBoostState(_spaceshipModel.SpeedBoosted);
         }
 
         var distance = _spaceshipModel.SpeedBoosted

@@ -32,6 +32,9 @@ public class SpaceshipModel
 
     public float RoadLengthX => _roadLengthX;
 
+    public delegate void SpeedBoostedHandler(bool isBoosted);
+    public event SpeedBoostedHandler OnSpeedBoosted;
+
     public SpaceshipModel(float speed, float speedMultiplier, float zShipMovementAngle, float spaceshipTiltTime,
         float sideShiftSpeed, float roadLengthX)
     {
@@ -41,5 +44,10 @@ public class SpaceshipModel
         _spaceshipTiltTime = spaceshipTiltTime;
         _sideShiftSpeed = sideShiftSpeed;
         _roadLengthX = roadLengthX;
+    }
+
+    public void CheckSpeedBoostState(bool isBoosted)
+    {
+        OnSpeedBoosted?.Invoke(isBoosted);
     }
 }
