@@ -34,7 +34,7 @@ public class RootController : MonoBehaviour
     private void Awake()
     {
         SmoothFollow smoothFollow = _cameraPrefab.GetComponent<SmoothFollow>();
-        SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3, _roadViewPrefab.transform.localScale.x / 2);
+        SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3);
         var spaceshipViewPrefab = Instantiate(_spaceshipPrefab);
         SpaceshipView spaceshipView = spaceshipViewPrefab.GetComponent<SpaceshipView>();
         smoothFollow.SetTarget(spaceshipView.transform);
@@ -49,7 +49,7 @@ public class RootController : MonoBehaviour
         _asteroidController = _asteroidControllerPrefab.GetComponent<AsteroidController>();
         _asteroidController.Init(levelModel, asteroidView, asteroidModel);
         
-        RoadModel roadModel = new RoadModel();
+        RoadModel roadModel = new RoadModel(_roadViewPrefab.transform.localScale.x / 2);
         RoadView roadView = _roadViewPrefab;
         var roadControllerPrefab = Instantiate(_roadControllerPrefab);
         _roadController = roadControllerPrefab.GetComponent<RoadController>();
@@ -70,7 +70,7 @@ public class RootController : MonoBehaviour
 
         var spaceshipController = Instantiate(_spaceshipControllerPrefab);
         _spaceshipController = spaceshipController.GetComponent<SpaceshipController>();
-        _spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow);
+        _spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow, roadModel);
         
         var asteroidMissCollisionPrefab = Instantiate(_asteroidMissCollisionPrefab, spaceshipViewPrefab.transform, true);
         asteroidMissCollisionPrefab.transform.localPosition = Vector3.zero;

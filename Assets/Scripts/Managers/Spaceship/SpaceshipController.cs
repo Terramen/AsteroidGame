@@ -7,12 +7,15 @@ public class SpaceshipController : MonoBehaviour
     private SpaceshipView _spaceshipView;
     private SpaceshipModel _spaceshipModel;
     private SmoothFollow _mainCameraFollow;
+    private RoadModel _roadModel;
 
-    public void Init(SpaceshipModel spaceshipModel, SpaceshipView spaceshipView, SmoothFollow smoothFollow)
+    public void Init(SpaceshipModel spaceshipModel, SpaceshipView spaceshipView, SmoothFollow smoothFollow,
+        RoadModel roadModel)
     {
         _spaceshipModel = spaceshipModel;
         _spaceshipView = spaceshipView;
         _mainCameraFollow = smoothFollow;
+        _roadModel = roadModel;
     }
 
     private void Awake()
@@ -28,16 +31,16 @@ public class SpaceshipController : MonoBehaviour
     private void Update()
     {
         _spaceshipView.SpaceshipForwardMoving(_spaceshipModel.Speed);
-        
+
         if (InputManager.Instance.IsMovingLeft)
         {
-            _spaceshipView.SpaceshipLeftSideMoving(_spaceshipModel.RoadLengthX, _spaceshipModel.ZShipMovementAngle,
+            _spaceshipView.SpaceshipLeftSideMoving(_roadModel.RoadWidth, _spaceshipModel.ZShipMovementAngle,
                 _spaceshipModel.SideShiftSpeed, _spaceshipModel.SpaceshipTiltTime);
         }
 
         if (InputManager.Instance.IsMovingRight)
         {
-            _spaceshipView.SpaceshipRightSideMoving(_spaceshipModel.RoadLengthX, _spaceshipModel.ZShipMovementAngle,
+            _spaceshipView.SpaceshipRightSideMoving(_roadModel.RoadWidth, _spaceshipModel.ZShipMovementAngle,
                 _spaceshipModel.SideShiftSpeed, _spaceshipModel.SpaceshipTiltTime);
         }
 

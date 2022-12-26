@@ -6,9 +6,6 @@ public class SpaceshipModel
     private float _spaceshipTiltTime;
     private float _sideShiftSpeed;
     private bool _speedBoosted;
-    
-    // TODO Possible remove later
-    private float _roadLengthX;
 
     public float Speed
     {
@@ -30,20 +27,17 @@ public class SpaceshipModel
         set => _speedBoosted = value;
     }
 
-    public float RoadLengthX => _roadLengthX;
-
     public delegate void SpeedBoostedHandler(bool isBoosted);
     public event SpeedBoostedHandler OnSpeedBoosted;
 
     public SpaceshipModel(float speed, float speedMultiplier, float zShipMovementAngle, float spaceshipTiltTime,
-        float sideShiftSpeed, float roadLengthX)
+        float sideShiftSpeed)
     {
         _speed = speed;
         _speedMultiplier = speedMultiplier;
         _zShipMovementAngle = zShipMovementAngle;
         _spaceshipTiltTime = spaceshipTiltTime;
         _sideShiftSpeed = sideShiftSpeed;
-        _roadLengthX = roadLengthX;
     }
 
     public void CheckSpeedBoostState(bool isBoosted)
