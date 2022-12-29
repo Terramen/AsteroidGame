@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreController : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class ScoreController : MonoBehaviour
         _scoreView = scoreView;
         _spaceshipModel = spaceshipModel;
         _levelModel = levelModel;
-        _scoreModel.OnGameOver += GameEnding;
+        _levelModel.OnGameOver += SetFinalResult;
+        _levelModel.OnRestartGame += SaveHighScoreAndRestart;
         _spaceshipModel.OnSpeedBoosted += ChangeScoreCalculation;
     }
 
@@ -28,7 +30,8 @@ public class ScoreController : MonoBehaviour
     private void OnDestroy()
     {
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
-        _scoreModel.OnGameOver -= GameEnding;
+        _levelModel.OnGameOver -= SetFinalResult;
+        _levelModel.OnRestartGame -= SaveHighScoreAndRestart;
         _spaceshipModel.OnSpeedBoosted -= ChangeScoreCalculation;
     }
 
@@ -50,10 +53,22 @@ public class ScoreController : MonoBehaviour
             _scoreModel.TimerCounter.TimeFromStart, _scoreModel.HighScore);
     }
 
-    private void GameEnding()
+    private void SetFinalResult()
     {
         _scoreView.SetResultCounterValues(_scoreModel.IsHighScoreBeated, _scoreModel.AsteroidCounter.AsteroidCount,
             _scoreModel.Score, _scoreModel.TimerCounter.TimeFromStart);
+    }
+
+    private void SaveHighScoreAndRestart()
+    {
+        if (_scoreModel.IsHighScoreBeated)
+        {
+            PlayerPrefs.SetInt("highScore",_scoreModel.HighScore);
+            PlayerPrefs.Save();   
+        }
+        
+        // TODO Possible remove LoadScene and change it with Reset params
+        SceneManager.LoadSceneAsync("SampleScene");
     }
 
     private void ChangeScoreCalculation(bool isBoosted)

@@ -9,10 +9,18 @@ public class LevelController : MonoBehaviour
     private PrefabPooling _prefabPooling;
     private SpaceshipModel _spaceshipModel;
 
-    public void Init(LevelModel levelModel, SpaceshipModel spaceshipModel)
+    // TODO Remove later
+    private PauseController _pauseController;
+
+    public void Init(LevelModel levelModel, LevelView levelView, SpaceshipModel spaceshipModel,
+        PauseController pauseController)
     {
+        _pauseController = pauseController;
         _levelModel = levelModel;
+        _levelView = levelView;
+        _levelView.InitView(levelModel);
         _spaceshipModel = spaceshipModel;
+        _levelModel.OnGameOver += PlayAgain;
         GameStateManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
@@ -36,9 +44,10 @@ public class LevelController : MonoBehaviour
 
     private void OnDestroy()
     {
+        _levelModel.OnGameOver -= PlayAgain;
         GameStateManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
-    
+
     private IEnumerator AsteroidRespawn()
     {
         while (true)
@@ -47,9 +56,16 @@ public class LevelController : MonoBehaviour
             yield return new WaitForSeconds(_levelModel.AsteroidFrequency / _spaceshipModel.Speed);
         }
     }
-    
+
+    private void PlayAgain()
+    {
+        _pauseController.IsGameOver = true;
+        _levelView.SpaceshipCrush();
+    }
+
     private void OnGameStateChanged(GameState newGameState)
     {
+        _levelView.RestartGame(newGameState);
         enabled = newGameState == GameState.Gameplay;
     }
 }

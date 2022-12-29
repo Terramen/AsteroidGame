@@ -35,14 +35,7 @@ public class ScoreModel
 
     public event Action OnActualScoreUpdate;
 
-    // TODO Rename? and move this to Spaceship Model
-    public delegate void GameOverEventHandler();
-    
-    public event GameOverEventHandler OnGameOver;
-
-
-    public ScoreModel(int scoreToIncreaseRespawn, int asteroidPassScore, int asteroidFrequency,
-        int regularFlyingScore, int boostFlyingScore)
+    public ScoreModel(int scoreToIncreaseRespawn, int asteroidPassScore, int regularFlyingScore, int boostFlyingScore)
     {
         // TODO Remove PlayerPrefs
         _highScore = PlayerPrefs.GetInt("highScore");
@@ -50,7 +43,7 @@ public class ScoreModel
         _scoreToIncreaseRespawn = scoreToIncreaseRespawn;
         _scoreIncreaseSum = _scoreToIncreaseRespawn;
         _timerCounter = new TimerCounter();
-        _asteroidCounter = new AsteroidCounter(asteroidPassScore, asteroidFrequency);
+        _asteroidCounter = new AsteroidCounter(asteroidPassScore);
         _flyingCounter = new FlyingCounter(regularFlyingScore, boostFlyingScore);
     }
 
@@ -88,11 +81,6 @@ public class ScoreModel
 
         return false;
     }
-
-    public void SpaceshipCrush()
-    {
-        OnGameOver?.Invoke();
-    }
 }
 
 public class TimerCounter
@@ -129,7 +117,7 @@ public class AsteroidCounter
 
     public int AsteroidPassScore => _asteroidPassScore;
 
-    public AsteroidCounter(int asteroidPassScore, int asteroidFrequency, int asteroidCount = default)
+    public AsteroidCounter(int asteroidPassScore, int asteroidCount = default)
     {
         _asteroidCount = asteroidCount;
         _asteroidPassScore = asteroidPassScore;

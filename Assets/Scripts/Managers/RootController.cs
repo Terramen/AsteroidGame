@@ -19,6 +19,7 @@ public class RootController : MonoBehaviour
     //[SerializeField] private LevelView _levelViewPrefab;
     [SerializeField] private AsteroidView _asteroidViewPrefab;
     [SerializeField] private RoadView _roadViewPrefab;
+    [SerializeField] private LevelView _levelViewPrefab;
 
     [SerializeField] private ObjectRemoveTrigger _objectRemoveTrigger;
 
@@ -29,10 +30,11 @@ public class RootController : MonoBehaviour
     private LevelController _levelController;
     private AsteroidMissCollision _asteroidMissCollision;
     private SpaceshipCollision _spaceshipCollision;
-    private UIManager _uiManager;
 
     private void Awake()
     {
+        PauseController pauseController = GetComponent<PauseController>();
+        
         SmoothFollow smoothFollow = _cameraPrefab.GetComponent<SmoothFollow>();
         SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3);
         var spaceshipViewPrefab = Instantiate(_spaceshipPrefab);
@@ -40,9 +42,10 @@ public class RootController : MonoBehaviour
         smoothFollow.SetTarget(spaceshipView.transform);
         
         LevelModel levelModel = new LevelModel(7, 20, 16, 2);
+        LevelView levelView = Instantiate(_levelViewPrefab);
         var levelControllerPrefab = Instantiate(_levelControllerPrefab);
         _levelController = levelControllerPrefab.GetComponent<LevelController>();
-        _levelController.Init(levelModel, spaceshipModel);
+        _levelController.Init(levelModel, levelView, spaceshipModel, pauseController);
 
         AsteroidModel asteroidModel = new AsteroidModel(60);
         AsteroidView asteroidView = _asteroidViewPrefab;
@@ -60,7 +63,7 @@ public class RootController : MonoBehaviour
 
         _objectRemoveTrigger.Init(levelModel);
         
-        ScoreModel scoreModel = new ScoreModel(30, 5, 20, 1, 2);
+        ScoreModel scoreModel = new ScoreModel(30, 5, 1, 2);
         var scoreViewPrefab = Instantiate(_scoreViewPrefab, _canvas.transform, true);
         scoreViewPrefab.transform.localPosition = Vector3.zero;
         ScoreView scoreView = scoreViewPrefab.GetComponent<ScoreView>();
@@ -76,11 +79,8 @@ public class RootController : MonoBehaviour
         asteroidMissCollisionPrefab.transform.localPosition = Vector3.zero;
         _asteroidMissCollision = asteroidMissCollisionPrefab.GetComponent<AsteroidMissCollision>();
         _asteroidMissCollision.Init(scoreModel);
-        
-        _uiManager = _canvas.GetComponent<UIManager>();
-        _uiManager.Init(scoreModel);
-        
+
         _spaceshipCollision = spaceshipViewPrefab.GetComponent<SpaceshipCollision>();
-        _spaceshipCollision.Init(scoreModel, _uiManager);
+        _spaceshipCollision.Init(levelModel);
     }
 }

@@ -36,6 +36,10 @@ public class LevelModel
     
     public delegate void RoadRemovingHandle(RoadView roadView);
     public event RoadRemovingHandle OnRoadRemove;
+
+    public event Action OnGameOver;
+
+    public event Action OnRestartGame;
     
     // TODO Event to not create SpaceshipModel in LevelController
 
@@ -83,5 +87,15 @@ public class LevelModel
     public void RemoveRoadsFromPool(RoadView roadView)
     {
         OnRoadRemove?.Invoke(roadView);
+    }
+    
+    public void SpaceshipCrush()
+    {
+        OnGameOver?.Invoke();
+    }
+
+    public void PlayAgain()
+    {
+        OnRestartGame?.Invoke();
     }
 }
