@@ -42,7 +42,7 @@ public class RootController : MonoBehaviour
         smoothFollow.SetTarget(spaceshipView.transform);
         
         LevelModel levelModel = new LevelModel(7, 20, 16, 2);
-        LevelView levelView = Instantiate(_levelViewPrefab);
+        LevelView levelView = Instantiate(_levelViewPrefab, _canvas.transform, false);
         var levelControllerPrefab = Instantiate(_levelControllerPrefab);
         _levelController = levelControllerPrefab.GetComponent<LevelController>();
         _levelController.Init(levelModel, levelView, spaceshipModel, pauseController);
@@ -64,8 +64,7 @@ public class RootController : MonoBehaviour
         _objectRemoveTrigger.Init(levelModel);
         
         ScoreModel scoreModel = new ScoreModel(30, 5, 1, 2);
-        var scoreViewPrefab = Instantiate(_scoreViewPrefab, _canvas.transform, true);
-        scoreViewPrefab.transform.localPosition = Vector3.zero;
+        var scoreViewPrefab = Instantiate(_scoreViewPrefab, _canvas.transform, false);
         ScoreView scoreView = scoreViewPrefab.GetComponent<ScoreView>();
         var scoreControllerPrefab = Instantiate(_scoreControllerPrefab);
         _scoreController = scoreControllerPrefab.GetComponent<ScoreController>();

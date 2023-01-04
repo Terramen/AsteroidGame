@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class ScoreView : MonoBehaviour
 {
-    [Header("Counters")]
+    [Header("Counters")] 
+    [SerializeField] private GameObject _counterPanel;
+    
     [SerializeField] private TextMeshProUGUI _scoreCounter;
     [SerializeField] private TextMeshProUGUI _asteroidCounter;
     [SerializeField] private TextMeshProUGUI _timer;
     [SerializeField] private TextMeshProUGUI _highScore;
 
     [Header("GameOver")]
+    [SerializeField] private GameObject _gameOverPanel;
+    
     [SerializeField] private TextMeshProUGUI _resultScoreCount;
     [SerializeField] private TextMeshProUGUI _resultAsteroidCount;
     [SerializeField] private TextMeshProUGUI _resultTimeCount;
@@ -38,10 +42,13 @@ public class ScoreView : MonoBehaviour
             _highScoreCongratulation.gameObject.SetActive(true);
         }
         _resultScoreCount.text = score.ToString();
-        _resultScoreCount.gameObject.SetActive(true);
         _resultTimeCount.text = timeFromStart.ToString();
-        _resultTimeCount.gameObject.SetActive(true);
         _resultAsteroidCount.text = asteroidCount.ToString();
-        _resultAsteroidCount.gameObject.SetActive(true);
+    }
+
+    public void SwitchPanelState(bool state)
+    {
+        _counterPanel.SetActive(state);
+        _gameOverPanel.SetActive(!state);
     }
 }

@@ -79,6 +79,7 @@ public class ScoreController : MonoBehaviour
     private void OnGameStateChanged(GameState newGameState)
     {
         enabled = newGameState == GameState.Gameplay;
+        _scoreView.SwitchPanelState(newGameState == GameState.Gameplay);
         _scoreView.enabled = newGameState == GameState.Gameplay;
     }
 }

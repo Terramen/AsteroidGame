@@ -454,7 +454,7 @@ MonoBehaviour:
   _canvas: {fileID: 767201328}
   _scoreControllerPrefab: {fileID: 4818576818046962515, guid: 5d5a90c20aca77e4d9683518cb8ea2d6,
     type: 3}
-  _scoreViewPrefab: {fileID: 5382181851946768683, guid: 191483ade7104a1459d4fb929b359c03,
+  _scoreViewPrefab: {fileID: 176659591346785762, guid: 191483ade7104a1459d4fb929b359c03,
     type: 3}
   _spaceshipControllerPrefab: {fileID: 8090658350350333320, guid: b094b148a86a7174b8269b87f907f4a0,
     type: 3}
@@ -473,7 +473,8 @@ MonoBehaviour:
     type: 3}
   _roadViewPrefab: {fileID: -1635830946436065016, guid: d3316aab7d0b89a4cbc3eae2bad2ff07,
     type: 3}
-  _levelViewPrefab: {fileID: 0}
+  _levelViewPrefab: {fileID: 4812213260552100713, guid: e28db88501ed9864dad0fd5a785a25b3,
+    type: 3}
   _objectRemoveTrigger: {fileID: 1663380658}
 --- !u!1 &534669902
 GameObject:
