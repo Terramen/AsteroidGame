@@ -452,28 +452,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 767201328}
-  _scoreControllerPrefab: {fileID: 4818576818046962515, guid: 5d5a90c20aca77e4d9683518cb8ea2d6,
+  _scoreControllerPrefab: {fileID: 8227447156174916380, guid: 5d5a90c20aca77e4d9683518cb8ea2d6,
     type: 3}
-  _scoreViewPrefab: {fileID: 176659591346785762, guid: 191483ade7104a1459d4fb929b359c03,
-    type: 3}
-  _spaceshipControllerPrefab: {fileID: 8090658350350333320, guid: b094b148a86a7174b8269b87f907f4a0,
+  _spaceshipControllerPrefab: {fileID: 3767468170419179235, guid: b094b148a86a7174b8269b87f907f4a0,
     type: 3}
   _spaceshipPrefab: {fileID: 6490644276430102875, guid: 59ca02e739ffb424085fb4b156f336a1,
     type: 3}
-  _asteroidControllerPrefab: {fileID: 7040958786346035218, guid: 96206151f3b7f314b8bdc267ade02390,
+  _asteroidControllerPrefab: {fileID: 1283859744709864527, guid: 96206151f3b7f314b8bdc267ade02390,
     type: 3}
-  _asteroidMissCollisionPrefab: {fileID: 4151834137825494951, guid: fc1b32cfddfb36d4c91386985d39b0fa,
+  _asteroidMissCollisionPrefab: {fileID: 2007041199353445892, guid: fc1b32cfddfb36d4c91386985d39b0fa,
     type: 3}
-  _levelControllerPrefab: {fileID: 2056749397224957878, guid: 734ef45844acc784c85a949a7e2d71fb,
+  _levelControllerPrefab: {fileID: 532509659205597284, guid: 734ef45844acc784c85a949a7e2d71fb,
     type: 3}
   _cameraPrefab: {fileID: 534669902}
-  _roadControllerPrefab: {fileID: 2105575556720650416, guid: edbafbdfc5035204c8e956c15e7aa53d,
+  _roadControllerPrefab: {fileID: 6594206571173245400, guid: edbafbdfc5035204c8e956c15e7aa53d,
     type: 3}
   _asteroidViewPrefab: {fileID: 391238796541444124, guid: 0ccc12a53be765e47901c8bd2d742851,
     type: 3}
   _roadViewPrefab: {fileID: -1635830946436065016, guid: d3316aab7d0b89a4cbc3eae2bad2ff07,
     type: 3}
   _levelViewPrefab: {fileID: 4812213260552100713, guid: e28db88501ed9864dad0fd5a785a25b3,
+    type: 3}
+  _scoreViewPrefab: {fileID: 3922042006309759370, guid: 191483ade7104a1459d4fb929b359c03,
     type: 3}
   _objectRemoveTrigger: {fileID: 1663380658}
 --- !u!1 &534669902

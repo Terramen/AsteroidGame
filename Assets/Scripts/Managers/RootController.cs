@@ -3,33 +3,24 @@ using UnityEngine;
 public class RootController : MonoBehaviour
 {
     [SerializeField] private GameObject _canvas;
-    [SerializeField] private GameObject _scoreControllerPrefab;
-    [SerializeField] private GameObject _scoreViewPrefab;
+    [SerializeField] private ScoreController _scoreControllerPrefab;
 
-    [SerializeField] private GameObject _spaceshipControllerPrefab;
-    [SerializeField] private GameObject _spaceshipPrefab;
+    [SerializeField] private SpaceshipController _spaceshipControllerPrefab;
+    [SerializeField] private SpaceshipView _spaceshipPrefab;
     
-    [SerializeField] private GameObject _asteroidControllerPrefab;
-    [SerializeField] private GameObject _asteroidMissCollisionPrefab;
-    [SerializeField] private GameObject _levelControllerPrefab;
+    [SerializeField] private AsteroidController _asteroidControllerPrefab;
+    [SerializeField] private AsteroidMissCollision _asteroidMissCollisionPrefab;
+    [SerializeField] private LevelController _levelControllerPrefab;
     [SerializeField] private GameObject _cameraPrefab;
 
-    [SerializeField] private GameObject _roadControllerPrefab;
-
-    //[SerializeField] private LevelView _levelViewPrefab;
+    [SerializeField] private RoadController _roadControllerPrefab;
+    
     [SerializeField] private AsteroidView _asteroidViewPrefab;
     [SerializeField] private RoadView _roadViewPrefab;
     [SerializeField] private LevelView _levelViewPrefab;
+    [SerializeField] private ScoreView _scoreViewPrefab;
 
     [SerializeField] private ObjectRemoveTrigger _objectRemoveTrigger;
-
-    private ScoreController _scoreController;
-    private SpaceshipController _spaceshipController;
-    private AsteroidController _asteroidController;
-    private RoadController _roadController;
-    private LevelController _levelController;
-    private AsteroidMissCollision _asteroidMissCollision;
-    private SpaceshipCollision _spaceshipCollision;
 
     private void Awake()
     {
@@ -37,49 +28,41 @@ public class RootController : MonoBehaviour
         
         SmoothFollow smoothFollow = _cameraPrefab.GetComponent<SmoothFollow>();
         SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3);
-        var spaceshipViewPrefab = Instantiate(_spaceshipPrefab);
-        SpaceshipView spaceshipView = spaceshipViewPrefab.GetComponent<SpaceshipView>();
+        var spaceshipView = Instantiate(_spaceshipPrefab);
         smoothFollow.SetTarget(spaceshipView.transform);
         
         LevelModel levelModel = new LevelModel(7, 20, 16, 2);
         LevelView levelView = Instantiate(_levelViewPrefab, _canvas.transform, false);
-        var levelControllerPrefab = Instantiate(_levelControllerPrefab);
-        _levelController = levelControllerPrefab.GetComponent<LevelController>();
-        _levelController.Init(levelModel, levelView, spaceshipModel, pauseController);
+        var levelController = Instantiate(_levelControllerPrefab);
+        levelController.Init(levelModel, levelView, spaceshipModel, pauseController);
 
         AsteroidModel asteroidModel = new AsteroidModel(60);
         AsteroidView asteroidView = _asteroidViewPrefab;
-        _asteroidController = _asteroidControllerPrefab.GetComponent<AsteroidController>();
-        _asteroidController.Init(levelModel, asteroidView, asteroidModel);
+        var asteroidController = Instantiate(_asteroidControllerPrefab);
+        asteroidController.Init(levelModel, asteroidView, asteroidModel);
         
         RoadModel roadModel = new RoadModel(_roadViewPrefab.transform.localScale.x / 2);
         RoadView roadView = _roadViewPrefab;
-        var roadControllerPrefab = Instantiate(_roadControllerPrefab);
-        _roadController = roadControllerPrefab.GetComponent<RoadController>();
-        _roadController.Init(roadModel, roadView, levelModel);
+        var roadController = Instantiate(_roadControllerPrefab);
+        roadController.Init(roadModel, roadView, levelModel);
          
         // TODO Possible to replace?
-        _levelController.InitEnvironment();
+        levelController.InitEnvironment();
 
         _objectRemoveTrigger.Init(levelModel);
         
         ScoreModel scoreModel = new ScoreModel(30, 5, 1, 2);
-        var scoreViewPrefab = Instantiate(_scoreViewPrefab, _canvas.transform, false);
-        ScoreView scoreView = scoreViewPrefab.GetComponent<ScoreView>();
-        var scoreControllerPrefab = Instantiate(_scoreControllerPrefab);
-        _scoreController = scoreControllerPrefab.GetComponent<ScoreController>();
-        _scoreController.Init(scoreModel, scoreView, spaceshipModel, levelModel);
+        var scoreView = Instantiate(_scoreViewPrefab, _canvas.transform, false);
+        var scoreController = Instantiate(_scoreControllerPrefab);
+        scoreController.Init(scoreModel, scoreView, spaceshipModel, levelModel);
 
         var spaceshipController = Instantiate(_spaceshipControllerPrefab);
-        _spaceshipController = spaceshipController.GetComponent<SpaceshipController>();
-        _spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow, roadModel);
+        spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow, roadModel);
         
-        var asteroidMissCollisionPrefab = Instantiate(_asteroidMissCollisionPrefab, spaceshipViewPrefab.transform, true);
-        asteroidMissCollisionPrefab.transform.localPosition = Vector3.zero;
-        _asteroidMissCollision = asteroidMissCollisionPrefab.GetComponent<AsteroidMissCollision>();
-        _asteroidMissCollision.Init(scoreModel);
+        var asteroidMissCollision = Instantiate(_asteroidMissCollisionPrefab, spaceshipView.transform, false);
+        asteroidMissCollision.Init(scoreModel);
 
-        _spaceshipCollision = spaceshipViewPrefab.GetComponent<SpaceshipCollision>();
-        _spaceshipCollision.Init(levelModel);
+        var spaceshipCollision = spaceshipView.GetComponent<SpaceshipCollision>();
+        spaceshipCollision.Init(levelModel);
     }
 }
