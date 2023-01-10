@@ -10,44 +10,36 @@ public class RoadController : MonoBehaviour
 
     private RoadModel _currentRoadModel;
     private RoadView _currentRoadView;
+    private SmoothFollow _smoothFollow;
 
     private LevelModel _levelModel;
 
-    public void Init(RoadModel roadModel, RoadView roadView, LevelModel levelModel)
+    public void Init(RoadModel roadModel, RoadView roadView, LevelModel levelModel, SmoothFollow smoothFollow)
     {
         _roadModels = new Queue<RoadModel>();
         _roadViews = new Queue<RoadView>();
         _currentRoadModel = roadModel;
         _currentRoadView = roadView;
         _levelModel = levelModel;
-        _levelModel.OnRoadAdd += AddMultipleRoads;
+        _smoothFollow = smoothFollow;
         _levelModel.OnRoadRemove += DisableRoadByTrigger;
     }
 
     private void OnDestroy()
     {
-        _levelModel.OnRoadAdd -= AddMultipleRoads;
         _levelModel.OnRoadRemove -= DisableRoadByTrigger;
     }
 
     private void Update()
     {
-        if (_roadViews.Count != 0)
+        var currentPosition = _smoothFollow.gameObject.transform.position.z;
+        if (_levelModel.RoadPositionZ < _levelModel.PlayerVisibilityRadius + currentPosition)
         {
-            AddRoad(_levelModel.RoadCount);
-            _levelModel.IncreaseRoadCount();
+            AddRoad();
         }
     }
 
-    private void AddMultipleRoads(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            AddRoad(i);
-        }
-    }
-
-    private void AddRoad(int iterator)
+    private void AddRoad()
     {
         // Check if Queue is not empty
         if (_roadViews.Count != 0)
@@ -55,7 +47,8 @@ public class RoadController : MonoBehaviour
             RoadView viewItem = _roadViews.Dequeue();
             var roadTransform = viewItem.transform;
             roadTransform.position = new Vector3(roadTransform.position.x, roadTransform.position.y,
-                roadTransform.localScale.z * iterator);
+                _levelModel.RoadPositionZ);
+            _levelModel.ChangeBaseRoadPosition(roadTransform.localScale.z);
             viewItem.gameObject.SetActive(true);
         }
         // If Queue is empty, instantiate a new prebab copy
@@ -63,7 +56,8 @@ public class RoadController : MonoBehaviour
         {
             var roadTransform = _currentRoadView.transform;
             var viewPosition = new Vector3(roadTransform.position.x, roadTransform.position.y,
-                roadTransform.localScale.z * iterator);
+                _levelModel.RoadPositionZ);
+            _levelModel.ChangeBaseRoadPosition(roadTransform.localScale.z);
             Instantiate(_currentRoadView, viewPosition, roadTransform.rotation);
         }
     }

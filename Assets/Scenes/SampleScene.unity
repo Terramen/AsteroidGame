@@ -456,7 +456,7 @@ MonoBehaviour:
     type: 3}
   _spaceshipControllerPrefab: {fileID: 3767468170419179235, guid: b094b148a86a7174b8269b87f907f4a0,
     type: 3}
-  _spaceshipPrefab: {fileID: 6490644276430102875, guid: 59ca02e739ffb424085fb4b156f336a1,
+  _spaceshipPrefab: {fileID: 6490644276440021148, guid: 59ca02e739ffb424085fb4b156f336a1,
     type: 3}
   _asteroidControllerPrefab: {fileID: 1283859744709864527, guid: 96206151f3b7f314b8bdc267ade02390,
     type: 3}

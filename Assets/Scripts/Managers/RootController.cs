@@ -27,38 +27,35 @@ public class RootController : MonoBehaviour
         PauseController pauseController = GetComponent<PauseController>();
         
         SmoothFollow smoothFollow = _cameraPrefab.GetComponent<SmoothFollow>();
-        SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3);
-        var spaceshipView = Instantiate(_spaceshipPrefab);
-        smoothFollow.SetTarget(spaceshipView.transform);
-        
-        LevelModel levelModel = new LevelModel(7, 20, 16, 2);
+
+        LevelModel levelModel = new LevelModel(7, 20, 16, 2, 70);
         LevelView levelView = Instantiate(_levelViewPrefab, _canvas.transform, false);
         var levelController = Instantiate(_levelControllerPrefab);
-        levelController.Init(levelModel, levelView, spaceshipModel, pauseController);
+        levelController.Init(levelModel, levelView, pauseController);
 
         AsteroidModel asteroidModel = new AsteroidModel(60);
         AsteroidView asteroidView = _asteroidViewPrefab;
         var asteroidController = Instantiate(_asteroidControllerPrefab);
-        asteroidController.Init(levelModel, asteroidView, asteroidModel);
+        asteroidController.Init(levelModel, asteroidView, asteroidModel, smoothFollow);
         
         RoadModel roadModel = new RoadModel(_roadViewPrefab.transform.localScale.x / 2);
         RoadView roadView = _roadViewPrefab;
         var roadController = Instantiate(_roadControllerPrefab);
-        roadController.Init(roadModel, roadView, levelModel);
-         
-        // TODO Possible to replace?
-        levelController.InitEnvironment();
+        roadController.Init(roadModel, roadView, levelModel, smoothFollow);
 
         _objectRemoveTrigger.Init(levelModel);
+        
+        SpaceshipModel spaceshipModel = new SpaceshipModel(7, 2, 30, 0.2f, 3);
+        var spaceshipView = Instantiate(_spaceshipPrefab);
+        var spaceshipController = Instantiate(_spaceshipControllerPrefab);
+        spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow, roadModel);
+        smoothFollow.SetTarget(spaceshipView.transform);
         
         ScoreModel scoreModel = new ScoreModel(30, 5, 1, 2);
         var scoreView = Instantiate(_scoreViewPrefab, _canvas.transform, false);
         var scoreController = Instantiate(_scoreControllerPrefab);
         scoreController.Init(scoreModel, scoreView, spaceshipModel, levelModel);
 
-        var spaceshipController = Instantiate(_spaceshipControllerPrefab);
-        spaceshipController.Init(spaceshipModel, spaceshipView, smoothFollow, roadModel);
-        
         var asteroidMissCollision = Instantiate(_asteroidMissCollisionPrefab, spaceshipView.transform, false);
         asteroidMissCollision.Init(scoreModel);
 

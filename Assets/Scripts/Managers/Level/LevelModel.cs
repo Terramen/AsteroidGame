@@ -8,10 +8,12 @@ public class LevelModel
     private int _asteroidCount;
     private int _asteroidFrequency;
     private float _asteroidPositionZ;
-    
+
     private int _roadCount;
     private float _roadBorder;
-    private int _roadRemovePointZ;
+    private float _roadPositionZ;
+
+    private float _playerVisibilityRadius;
 
     public int AsteroidCount => _asteroidCount;
 
@@ -19,36 +21,36 @@ public class LevelModel
 
     public float AsteroidPositionZ => _asteroidPositionZ;
 
-    public int RoadCount => _roadCount;
+    public int RoadCount => _roadCount; 
 
     public float RoadBorder => _roadBorder;
 
-    public int RoadRemovePointZ => _roadRemovePointZ;
+    public float PlayerVisibilityRadius => _playerVisibilityRadius;
 
-    public delegate void AsteroidAddingHandle(int count);
-    public event AsteroidAddingHandle OnAsteroidAdd;
-    
-    public delegate void RoadAddingHandle(int count);
-    public event RoadAddingHandle OnRoadAdd;
-    
+    public float RoadPositionZ => _roadPositionZ;
+
     public delegate void AsteroidRemovingHandle(AsteroidView asteroidView);
+
     public event AsteroidRemovingHandle OnAsteroidRemove;
-    
+
     public delegate void RoadRemovingHandle(RoadView roadView);
+
     public event RoadRemovingHandle OnRoadRemove;
 
     public event Action OnGameOver;
 
     public event Action OnRestartGame;
-    
+
     // TODO Event to not create SpaceshipModel in LevelController
 
-    public LevelModel(int asteroidCount, int asteroidFrequency, int roadCount, float roadBorder)
+    public LevelModel(int asteroidCount, int asteroidFrequency, int roadCount, float roadBorder,
+        float playerVisibilityRadius)
     {
         _asteroidCount = asteroidCount;
         _asteroidFrequency = asteroidFrequency;
         _roadCount = roadCount;
         _roadBorder = roadBorder;
+        _playerVisibilityRadius = playerVisibilityRadius;
     }
 
     public void ChangeBaseAsteroidPosition()
@@ -56,6 +58,11 @@ public class LevelModel
         _asteroidPositionZ += _asteroidFrequency;
     }
     
+    public void ChangeBaseRoadPosition(float position)
+    {
+        _roadPositionZ += position;
+    }
+
     public void AsteroidRespawnIncreasing()
     {
         if (_asteroidFrequency > 0)
@@ -64,21 +71,6 @@ public class LevelModel
         }
     }
 
-    public void IncreaseRoadCount()
-    {
-        _roadCount++;
-    }
-
-    public void AddAsteroidsInPool(int count)
-    {
-        OnAsteroidAdd?.Invoke(count);
-    }
-
-    public void AddRoadsInPool(int count)
-    {
-        OnRoadAdd?.Invoke(count);
-    }
-    
     public void RemoveAsteroidsFromPool(AsteroidView asteroidView)
     {
         OnAsteroidRemove?.Invoke(asteroidView);
@@ -88,7 +80,7 @@ public class LevelModel
     {
         OnRoadRemove?.Invoke(roadView);
     }
-    
+
     public void SpaceshipCrush()
     {
         OnGameOver?.Invoke();

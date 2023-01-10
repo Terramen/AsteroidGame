@@ -15,26 +15,36 @@ public class AsteroidController : MonoBehaviour
     private AsteroidModel _currentAsteroidModel;
 
     private LevelModel _levelModel;
+    private SmoothFollow _smoothFollow;
 
     private PrefabPooling _prefabPooling;
-    
-    public void Init(LevelModel levelModel, AsteroidView asteroidView, AsteroidModel asteroidModel)
+
+    public void Init(LevelModel levelModel, AsteroidView asteroidView, AsteroidModel asteroidModel,
+        SmoothFollow smoothFollow)
     {
         _currentAsteroidView = asteroidView;
         _currentAsteroidModel = asteroidModel;
         _asteroidModels = new Queue<AsteroidModel>();
         _asteroidViews = new Queue<AsteroidView>();
         _levelModel = levelModel;
-        _levelModel.OnAsteroidAdd += AddMultipleAsteroids;
+        _smoothFollow = smoothFollow;
         _levelModel.OnAsteroidRemove += DisableAsteroidByTrigger;
     }
 
     private void OnDestroy()
     {
-        _levelModel.OnAsteroidAdd -= AddMultipleAsteroids;
         _levelModel.OnAsteroidRemove -= DisableAsteroidByTrigger;
     }
-    
+
+    private void Update()
+    {
+        var currentPosition = _smoothFollow.gameObject.transform.position.z;
+        if (_levelModel.AsteroidPositionZ < _levelModel.PlayerVisibilityRadius + currentPosition)
+        {
+            AddAsteroid();
+        }
+    }
+
     private void AddAsteroid()
     {
         _levelModel.ChangeBaseAsteroidPosition();
@@ -49,7 +59,6 @@ public class AsteroidController : MonoBehaviour
             viewItem.gameObject.SetActive(true);
             viewItem.RotateObject(modelItem.RotateSpeed);
             viewItem.RotateObject(60);
-
         }
         // If Queue is empty, instantiate a new prebab copy
         else
@@ -59,14 +68,6 @@ public class AsteroidController : MonoBehaviour
                 _currentAsteroidView.transform.position.y, _levelModel.AsteroidPositionZ);
             var view = Instantiate(_currentAsteroidView, viewPosition, _currentAsteroidView.transform.rotation);
             view.RotateObject(model.RotateSpeed);
-        }
-    }
-
-    private void AddMultipleAsteroids(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            AddAsteroid();
         }
     }
 
