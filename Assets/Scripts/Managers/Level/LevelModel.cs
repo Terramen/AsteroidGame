@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class LevelModel
 {
-    private int _asteroidCount;
     private int _asteroidFrequency;
     private float _asteroidPositionZ;
 
@@ -14,8 +13,6 @@ public class LevelModel
     private float _roadPositionZ;
 
     private float _playerVisibilityRadius;
-
-    public int AsteroidCount => _asteroidCount;
 
     public int AsteroidFrequency => _asteroidFrequency;
 
@@ -37,16 +34,19 @@ public class LevelModel
 
     public event RoadRemovingHandle OnRoadRemove;
 
+    public delegate void EnvironmentRemovingHandle(EnvironmentType type, EnvironmentView view);
+    
+    public event EnvironmentRemovingHandle OnEnvironmentRemove;
+
     public event Action OnGameOver;
 
     public event Action OnRestartGame;
 
     // TODO Event to not create SpaceshipModel in LevelController
 
-    public LevelModel(int asteroidCount, int asteroidFrequency, int roadCount, float roadBorder,
+    public LevelModel(int asteroidFrequency, int roadCount, float roadBorder,
         float playerVisibilityRadius)
     {
-        _asteroidCount = asteroidCount;
         _asteroidFrequency = asteroidFrequency;
         _roadCount = roadCount;
         _roadBorder = roadBorder;
@@ -79,6 +79,11 @@ public class LevelModel
     public void RemoveRoadsFromPool(RoadView roadView)
     {
         OnRoadRemove?.Invoke(roadView);
+    }
+
+    public void RemoveEnvironmentFromPool(EnvironmentType type, EnvironmentView view)
+    {
+        OnEnvironmentRemove?.Invoke(type, view);
     }
 
     public void SpaceshipCrush()

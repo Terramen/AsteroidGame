@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidView : MonoBehaviour
+public class AsteroidView : EnvironmentView
 {
-    public void RotateObject(float rotationSpeed)
+    public override void ActivateView(EnvironmentModel model)
     {
-        StartCoroutine(StartRotate(rotationSpeed));
+        base.ActivateView(model);
+        var asteroidModel = model as AsteroidModel;
+        var speed = asteroidModel?.RotateSpeed ?? default;
+        StartCoroutine(StartRotate(speed));
     }
 
     private void OnDisable()

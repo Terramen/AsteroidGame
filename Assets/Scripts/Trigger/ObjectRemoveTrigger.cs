@@ -19,12 +19,12 @@ public class ObjectRemoveTrigger : MonoBehaviour
         if (ExistLayerByLayerMask(_roadLayer, other.gameObject.layer))
         {
             other.gameObject.TryGetComponent(out RoadView roadView);
-            _levelModel.RemoveRoadsFromPool(roadView);
+            _levelModel.RemoveEnvironmentFromPool(EnvironmentType.Road, roadView);
         }
         if (ExistLayerByLayerMask(_asteroidLayer, other.gameObject.layer))
         {
             other.gameObject.TryGetComponent(out AsteroidView asteroidView);
-            _levelModel.RemoveAsteroidsFromPool(asteroidView);
+            _levelModel.RemoveEnvironmentFromPool(EnvironmentType.Asteroid, asteroidView);
         }
     }
     

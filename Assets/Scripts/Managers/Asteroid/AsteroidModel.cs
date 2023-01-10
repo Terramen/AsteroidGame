@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteroidModel
+public class AsteroidModel : EnvironmentModel
 {
     private float _rotateSpeed;
 

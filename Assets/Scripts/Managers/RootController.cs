@@ -28,7 +28,7 @@ public class RootController : MonoBehaviour
         
         SmoothFollow smoothFollow = _cameraPrefab.GetComponent<SmoothFollow>();
 
-        LevelModel levelModel = new LevelModel(7, 20, 16, 2, 70);
+        LevelModel levelModel = new LevelModel(20, 16, 2.5f, 70);
         LevelView levelView = Instantiate(_levelViewPrefab, _canvas.transform, false);
         var levelController = Instantiate(_levelControllerPrefab);
         levelController.Init(levelModel, levelView, pauseController);
@@ -36,7 +36,7 @@ public class RootController : MonoBehaviour
         AsteroidModel asteroidModel = new AsteroidModel(60);
         AsteroidView asteroidView = _asteroidViewPrefab;
         var asteroidController = Instantiate(_asteroidControllerPrefab);
-        asteroidController.Init(levelModel, asteroidView, asteroidModel, smoothFollow);
+        asteroidController.Init(asteroidModel, asteroidView, levelModel, smoothFollow);
         
         RoadModel roadModel = new RoadModel(_roadViewPrefab.transform.localScale.x / 2);
         RoadView roadView = _roadViewPrefab;
