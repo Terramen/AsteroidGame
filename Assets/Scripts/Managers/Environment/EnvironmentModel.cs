@@ -9,5 +9,5 @@ public class EnvironmentModel
 
 public enum EnvironmentType
 {
-    Road, Asteroid
+    Road, Asteroid, LaserAmmo
 }

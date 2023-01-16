@@ -2,23 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelModel
 {
     private int _asteroidFrequency;
     private float _asteroidPositionZ;
 
-    private int _roadCount;
+    private int _laserAmmoMaxFrequency;
+    private int _laserAmmoMinFrequency;
+    private int _laserAmmoFrequency;
+    private float _laserAmmoPositionZ;
+
     private float _roadBorder;
     private float _roadPositionZ;
 
     private float _playerVisibilityRadius;
 
-    public int AsteroidFrequency => _asteroidFrequency;
-
     public float AsteroidPositionZ => _asteroidPositionZ;
-
-    public int RoadCount => _roadCount; 
 
     public float RoadBorder => _roadBorder;
 
@@ -26,41 +27,41 @@ public class LevelModel
 
     public float RoadPositionZ => _roadPositionZ;
 
-    public delegate void AsteroidRemovingHandle(AsteroidView asteroidView);
-
-    public event AsteroidRemovingHandle OnAsteroidRemove;
-
-    public delegate void RoadRemovingHandle(RoadView roadView);
-
-    public event RoadRemovingHandle OnRoadRemove;
+    public float LaserAmmoPositionZ => _laserAmmoPositionZ;
 
     public delegate void EnvironmentRemovingHandle(EnvironmentType type, EnvironmentView view);
-    
+
     public event EnvironmentRemovingHandle OnEnvironmentRemove;
 
     public event Action OnGameOver;
 
     public event Action OnRestartGame;
 
-    // TODO Event to not create SpaceshipModel in LevelController
-
-    public LevelModel(int asteroidFrequency, int roadCount, float roadBorder,
-        float playerVisibilityRadius)
+    public LevelModel(int asteroidFrequency, float roadBorder, float playerVisibilityRadius, int laserAmmoMaxFrequency,
+        int laserAmmoMinFrequency)
     {
         _asteroidFrequency = asteroidFrequency;
-        _roadCount = roadCount;
         _roadBorder = roadBorder;
         _playerVisibilityRadius = playerVisibilityRadius;
+        _laserAmmoMaxFrequency = laserAmmoMaxFrequency;
+        _laserAmmoMinFrequency = laserAmmoMinFrequency;
+        LaserAmmoRespawnChange();
+        ChangeBaseLaserAmmoPosition();
     }
 
     public void ChangeBaseAsteroidPosition()
     {
         _asteroidPositionZ += _asteroidFrequency;
     }
-    
+
     public void ChangeBaseRoadPosition(float position)
     {
         _roadPositionZ += position;
+    }
+
+    public void ChangeBaseLaserAmmoPosition()
+    {
+        _laserAmmoPositionZ += _laserAmmoFrequency;
     }
 
     public void AsteroidRespawnIncreasing()
@@ -71,14 +72,9 @@ public class LevelModel
         }
     }
 
-    public void RemoveAsteroidsFromPool(AsteroidView asteroidView)
+    public void LaserAmmoRespawnChange()
     {
-        OnAsteroidRemove?.Invoke(asteroidView);
-    }
-
-    public void RemoveRoadsFromPool(RoadView roadView)
-    {
-        OnRoadRemove?.Invoke(roadView);
+        _laserAmmoFrequency = Random.Range(_laserAmmoMinFrequency, _laserAmmoMaxFrequency);
     }
 
     public void RemoveEnvironmentFromPool(EnvironmentType type, EnvironmentView view)

@@ -317,6 +317,7 @@ MonoBehaviour:
   _moveRight: MovingRight
   _moveLeft: MovingLeft
   _shipBoostKey: Boost
+  _shootKey: Shoot
 --- !u!4 &361312696
 Transform:
   m_ObjectHideFlags: 0
@@ -467,6 +468,10 @@ MonoBehaviour:
   _cameraPrefab: {fileID: 534669902}
   _roadControllerPrefab: {fileID: 6594206571173245400, guid: edbafbdfc5035204c8e956c15e7aa53d,
     type: 3}
+  _laserAmmoControllerPrefab: {fileID: 8178571208638845227, guid: d8f9e4ce424024f4d87d545d87cebfba,
+    type: 3}
+  _laserGunControllerPrefab: {fileID: 5880140666600833377, guid: 417884d2987017049aa862e4a8759105,
+    type: 3}
   _asteroidViewPrefab: {fileID: 391238796541444124, guid: 0ccc12a53be765e47901c8bd2d742851,
     type: 3}
   _roadViewPrefab: {fileID: -1635830946436065016, guid: d3316aab7d0b89a4cbc3eae2bad2ff07,
@@ -474,6 +479,14 @@ MonoBehaviour:
   _levelViewPrefab: {fileID: 4812213260552100713, guid: e28db88501ed9864dad0fd5a785a25b3,
     type: 3}
   _scoreViewPrefab: {fileID: 3922042006309759370, guid: 191483ade7104a1459d4fb929b359c03,
+    type: 3}
+  _laserAmmoViewPrefab: {fileID: 3432878677378023660, guid: b320f72ccdceffc49bc6e30a3a5e481b,
+    type: 3}
+  _laserLeftGunPrefab: {fileID: 2049815823480146993, guid: cfb8f649755122841bbb115f6b2e41fd,
+    type: 3}
+  _laserRightGunPrefab: {fileID: 3858739602879352216, guid: 53c9f70a77d39354b92669877bd37686,
+    type: 3}
+  _laserProjectileView: {fileID: 1715977927730612547, guid: 8a0fa69befd437a4ab7d9bb26739b5a8,
     type: 3}
   _objectRemoveTrigger: {fileID: 1663380658}
 --- !u!1 &534669902
@@ -735,7 +748,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 0, z: 3}
+  m_Size: {x: 10, y: 0, z: 3}
   m_Center: {x: 0.25, y: -3, z: -0.06822777}
 --- !u!114 &1663380658
 MonoBehaviour:
@@ -755,6 +768,9 @@ MonoBehaviour:
   _asteroidLayer:
     serializedVersion: 2
     m_Bits: 512
+  _laserAmmoLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!4 &1711537224
 Transform:
   m_ObjectHideFlags: 0

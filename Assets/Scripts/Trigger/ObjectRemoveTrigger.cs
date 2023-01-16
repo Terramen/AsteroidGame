@@ -6,6 +6,7 @@ public class ObjectRemoveTrigger : MonoBehaviour
 {
     [SerializeField] private LayerMask _roadLayer;
     [SerializeField] private LayerMask _asteroidLayer;
+    [SerializeField] private LayerMask _laserAmmoLayer;
 
     private LevelModel _levelModel;
 
@@ -25,6 +26,14 @@ public class ObjectRemoveTrigger : MonoBehaviour
         {
             other.gameObject.TryGetComponent(out AsteroidView asteroidView);
             _levelModel.RemoveEnvironmentFromPool(EnvironmentType.Asteroid, asteroidView);
+        }
+        if (ExistLayerByLayerMask(_laserAmmoLayer, other.gameObject.layer))
+        {
+            if (other.gameObject.GetComponentInParent<LaserAmmoView>() != null)
+            {
+                var laserAmmoView = other.gameObject.GetComponentInParent<LaserAmmoView>();
+                _levelModel.RemoveEnvironmentFromPool(EnvironmentType.LaserAmmo, laserAmmoView);
+            }
         }
     }
     
